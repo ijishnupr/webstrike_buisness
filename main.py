@@ -1,7 +1,20 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from router import router
+from db import pool
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await pool.open()   # initialize PostgreSQL async pool
+    yield
+    await pool.close()  # close pool safely
 
-@app.get("/api/auth/login")
-async def route():
-    return {"message": "Hello, World!"}
+
+app = FastAPI(lifespan=lifespan)
+
+app.include_router(router,prefix="/api")
+
+@app.get("/api/status/")
+def root():
+    return {"message": "Server status is healthy"}
+
