@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyd
+*.pkl
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# uv build artifacts
+.uv/
+.uv-cache/
+
+# VS Code
+.vscode/settings.json
+.vscode/*.code-workspace
+
+# Byte-compiled / optimized / DLL files
+*.so
+
+# Environment variables / secrets
+.env
+.env.*
+
+# Cache
+*.log
+*.cache/
+cache/
+tmp/
+temp/
+
+# Coverage / testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+ehthumbs.db
