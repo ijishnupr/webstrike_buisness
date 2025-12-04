@@ -1,7 +1,9 @@
 import os
 import psycopg
 from psycopg_pool import AsyncConnectionPool
+from dotenv import load_dotenv
 
+load_dotenv()
 DATABASE_URL = os.getenv("DB_URL")
 
 pool = AsyncConnectionPool(
