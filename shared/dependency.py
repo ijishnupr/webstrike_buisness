@@ -2,7 +2,7 @@ from datetime import datetime
 import jwt
 from requests import Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from fastapi import Depends, Header, Request
+from fastapi import Depends, Request
 
 security = HTTPBearer()
 
