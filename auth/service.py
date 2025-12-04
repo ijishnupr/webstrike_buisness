@@ -8,7 +8,8 @@ async def user_login(request:LoginRequest, db):
     get_user_query = """
     SELECT
         user_code,
-        password
+        password,
+        id as user_id
     FROM
         app_user
     WHERE
@@ -21,5 +22,11 @@ async def user_login(request:LoginRequest, db):
     password = user_record['password']
     ph = PasswordHasher()
     ph.verify(password, request.password)
-    token = jwt.encode({"user_code": request.username}, "your_secret_key", algorithm="HS256")
+    expire = datetime.utcnow() + timedelta(hours=24)
+    payload = {
+        "user_code": request.username,
+        "user_id": user_record['user_id'],
+        "exp": expire
+    }
+    token = jwt.encode(payload, "your_secret_key", algorithm="HS256")
     return {"token": token}
