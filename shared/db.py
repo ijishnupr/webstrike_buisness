@@ -2,7 +2,7 @@ import os
 import psycopg
 from psycopg_pool import AsyncConnectionPool
 from dotenv import load_dotenv
-
+from psycopg.rows import dict_row
 load_dotenv()
 DATABASE_URL = os.getenv("DB_URL")
 
@@ -14,5 +14,6 @@ pool = AsyncConnectionPool(
 
 async def get_connection():
     async with pool.connection() as conn:
+        conn.row_factory = dict_row
         async with conn.cursor() as cur:
             yield conn, cur

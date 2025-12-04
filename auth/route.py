@@ -1,13 +1,11 @@
 
-from fastapi import Depends
-from fastapi.routing import APIRoute
-
+from fastapi import APIRouter, Depends
 from auth.model import LoginRequest
 from auth.service import user_login
 from shared.db import get_connection
 
 # only use this auth for admin 
-route = APIRoute()
+route = APIRouter()
 
 @route.get("/login")
 async def login_route(request:LoginRequest,db=Depends(get_connection)):

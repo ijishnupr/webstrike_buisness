@@ -1,7 +1,11 @@
 
+from asyncio import exceptions
+from datetime import datetime, timedelta
 from auth.model import LoginRequest
 import jwt
 from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
+
 
 async def user_login(request:LoginRequest, db):
     conn,cur = db
@@ -21,12 +25,17 @@ async def user_login(request:LoginRequest, db):
         return {"error": "Invalid usercode"}
     password = user_record['password']
     ph = PasswordHasher()
-    ph.verify(password, request.password)
-    expire = datetime.utcnow() + timedelta(hours=24)
+    try:
+        ph.verify(password, request.password)
+    except VerifyMismatchError:
+        return {"error": "Invalid password"}
+    
+    expire = datetime.now() + timedelta(hours=24)
     payload = {
         "user_code": request.username,
         "user_id": user_record['user_id'],
         "exp": expire
     }
-    token = jwt.encode(payload, "your_secret_key", algorithm="HS256")
+    token = jwt.encode(payload, "asdfas", algorithm="HS256")
     return {"token": token}
+  
